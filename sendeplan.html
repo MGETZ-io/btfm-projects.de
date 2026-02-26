@@ -5,23 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BTFM Sendeplan</title>
     <style>
-        /* DESIGN-FIX: Dunkler Hintergrund erzwungen */
         :root {
             --bg-deep: #0b0614;
             --card-dark: #1c1236;
             --btfm-blue: #0077ff;
+            --btfm-live: #ff4d4d; /* Rot für Live-Status */
             --text-white: #ffffff;
             --text-gray: #a0a0a0;
             --border-purple: #2d1f4d;
         }
 
-        /* Verhindert weißes Aufblitzen */
         html, body {
             background-color: var(--bg-deep) !important;
             color: var(--text-white) !important;
             margin: 0;
             padding: 15px;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
         }
 
         .sendeplan-wrapper {
@@ -34,7 +33,7 @@
         }
 
         .header-bar {
-            background: var(--sidebar-bg, #160d2b);
+            background: #160d2b;
             padding: 20px;
             border-bottom: 2px solid var(--btfm-blue);
             font-weight: bold;
@@ -54,31 +53,41 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
         }
 
-        .show-item:hover {
-            background: rgba(0, 119, 255, 0.05);
+        /* LIVE-MARKIERUNG */
+        .show-item.is-live {
+            border-left: 4px solid var(--btfm-live);
+            background: rgba(255, 77, 77, 0.05);
         }
 
-        .show-item:last-child {
-            border-bottom: none;
+        .live-indicator {
+            background: var(--btfm-live);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-right: 10px;
+            animation: pulse-red 2s infinite;
         }
 
-        /* Format: (Titel) mit (Moderator) */
+        @keyframes pulse-red {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
         .show-info {
             font-size: 1.1rem;
             color: var(--text-white);
+            display: flex;
+            align-items: center;
         }
 
-        .show-title {
-            font-weight: bold;
-            color: var(--text-white);
-        }
-
-        .show-mod {
-            color: var(--btfm-blue);
-        }
+        .show-title { font-weight: bold; }
+        .show-mod { color: var(--btfm-blue); }
 
         .show-time {
             font-family: monospace;
@@ -90,16 +99,10 @@
             white-space: nowrap;
         }
 
-        .no-data {
+        .no-data, .error-msg {
             padding: 40px;
             text-align: center;
             color: var(--text-gray);
-        }
-
-        .error-msg {
-            color: #ff4d4d;
-            padding: 20px;
-            text-align: center;
         }
     </style>
 </head>
@@ -122,23 +125,34 @@
             const response = await fetch(API_URL);
             const json = await response.json();
 
-            if (json.success && json.data.length > 0) {
+            // Prüfung auf "status === success" (wie in deiner PHP-API definiert)
+            if (json.status === "success" && json.data.length > 0) {
+                const now = new Date();
                 let listHtml = '<ul class="show-list">';
                 
                 json.data.forEach(item => {
-                    const start = new Date(item.start_time).toLocaleTimeString('de-DE', {hour: '2-digit', minute:'2-digit'});
-                    const end = new Date(item.end_time).toLocaleTimeString('de-DE', {hour: '2-digit', minute:'2-digit'});
-                    const date = new Date(item.start_time).toLocaleDateString('de-DE', {day: '2-digit', month:'2-digit'});
+                    const startTime = new Date(item.start_time);
+                    const endTime = new Date(item.end_time);
+                    
+                    // Live-Check Logik
+                    const isLive = now >= startTime && now <= endTime;
+
+                    const startStr = startTime.toLocaleTimeString('de-DE', {hour: '2-digit', minute:'2-digit'});
+                    const endStr = endTime.toLocaleTimeString('de-DE', {hour: '2-digit', minute:'2-digit'});
+                    const dateStr = startTime.toLocaleDateString('de-DE', {day: '2-digit', month:'2-digit'});
 
                     listHtml += `
-                        <li class="show-item">
+                        <li class="show-item ${isLive ? 'is-live' : ''}">
                             <div class="show-info">
-                                <span class="show-title">${escape(item.title)}</span> 
-                                mit 
-                                <span class="show-mod">${escape(item.username)}</span>
+                                ${isLive ? '<span class="live-indicator">LIVE</span>' : ''}
+                                <div>
+                                    <span class="show-title">${escape(item.title)}</span> 
+                                    mit 
+                                    <span class="show-mod">${escape(item.moderator)}</span>
+                                </div>
                             </div>
                             <div class="show-time">
-                                ${date} | ${start} - ${end} Uhr
+                                ${dateStr} | ${startStr} - ${endStr} Uhr
                             </div>
                         </li>`;
                 });
@@ -160,8 +174,8 @@
     }
 
     loadSendeplan();
-    // Alle 5 Minuten aktualisieren
-    setInterval(loadSendeplan, 300000);
+    // Alle 60 Sekunden aktualisieren, um den Live-Status zu prüfen
+    setInterval(loadSendeplan, 60000);
 </script>
 
 </body>
