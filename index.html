@@ -3,166 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BTFM Projects | Maintenance</title>
+    <title>BTFM PROJECTS | Official Hub</title>
     <style>
-        :root {
-            --accent: #8a2be2; /* Kräftiges Lila */
-            --bg: #050505;
-            --card-bg: #0f0f12;
-            --text: #ffffff;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background-color: #0a001a; /* Tiefes Dunkellila */
+            color: #ffffff;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
         }
 
-        /* Subtiler lila Glow im Hintergrund */
-        .bg-glow {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: var(--accent);
-            filter: blur(180px);
-            opacity: 0.15;
-            z-index: 1;
-        }
-
-        .container {
-            position: relative;
-            z-index: 10;
+        .hub-container {
+            background: linear-gradient(180deg, #150030 0%, #001f4d 100%); /* Lila zu Blau Verlauf */
+            width: 90%;
+            max-width: 600px;
+            padding: 40px;
+            border-radius: 30px;
             text-align: center;
-            width: 100%;
-            max-width: 500px;
-            padding: 20px;
+            border: 2px solid #0055ff;
+            box-shadow: 0 0 40px rgba(0, 85, 255, 0.3);
         }
 
-        .logo {
-            font-size: 2.8rem;
-            font-weight: 900;
-            letter-spacing: -1px;
-            margin-bottom: 30px;
-            background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px #0055ff;
+            letter-spacing: 3px;
         }
 
-        .card {
-            background: var(--card-bg);
-            padding: 50px 30px;
-            border-radius: 20px;
-            border: 1px solid #1f1f23;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
-        }
-
-        h2 {
+        .tagline {
+            color: #a280ff;
             font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--accent);
-            margin-bottom: 15px;
+            margin-bottom: 30px;
+            display: block;
         }
 
-        p {
-            color: #888;
-            font-size: 1.05rem;
-            line-height: 1.6;
+        .project-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
             margin-bottom: 40px;
         }
 
-        /* Partner Sektion */
-        .partner-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 24px;
-            background: rgba(138, 43, 226, 0.1);
-            border: 1px solid var(--accent);
+        .project-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #330066;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: scale(1.05);
+            border-color: #0055ff;
+            background: rgba(0, 85, 255, 0.1);
+        }
+
+        .project-card h3 {
+            margin: 0 0 5px 0;
+            color: #4d94ff;
+        }
+
+        .project-card p {
+            margin: 0;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .rules-link {
+            display: block;
+            text-decoration: none;
+            background: #0055ff;
+            color: white;
+            padding: 15px 30px;
             border-radius: 50px;
-            font-weight: 600;
-            color: var(--text);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: default;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
-        .partner-badge:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(138, 43, 226, 0.3);
+        .rules-link:hover {
+            background: #0077ff;
+            box-shadow: 0 0 20px #0055ff;
+            transform: translateY(-3px);
         }
 
-        .dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--accent);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--accent);
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.4; }
-            100% { opacity: 1; }
-        }
-
-        footer {
-            margin-top: 60px;
+        .footer {
+            margin-top: 40px;
             font-size: 0.8rem;
-            color: #333;
-            letter-spacing: 1px;
+            color: #666;
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-glow"></div>
+    <div class="hub-container">
+        <h1>BTFM PROJECTS</h1>
+        <span class="tagline">Das ultimative Multi-Minecraft Projekt</span>
 
-    <div class="container">
-        <div class="logo">BTFM PROJECTS</div>
-        
-        <div class="card">
-            <h2>Wartungsarbeiten</h2>
-            <p>Wir bereiten das nächste Level vor. <br>BTFM Projects ist bald wieder online.</p>
-            
-            <div class="partner-badge">
-                <span class="dot"></span>
-                Partner with Hustensaft
+        <div class="project-grid">
+            <div class="project-card">
+                <h3>BTFM Tower</h3>
+                <p>Das Wahrzeichen unserer Welt.</p>
             </div>
-            <div class="partner-badge">
-                <span class="dot"></span>
-                Partner with BTFM Lucas
+            <div class="project-card">
+                <h3>BTFM Freizeitpark</h3>
+                <p>Action, Spaß und Adrenalin.</p>
             </div>
         </div>
 
-        <footer>
-            &copy; 2026 BTFM PROJECTS
-        </footer>
-    </div>
+        <a href="regeln.html" class="rules-link">Projekt-Regeln lesen</a>
 
-    <script>
-        // Kleiner Effekt: Sanftes Erscheinen beim Laden
-        document.addEventListener('DOMContentLoaded', () => {
-            const container = document.querySelector('.container');
-            container.style.opacity = '0';
-            container.style.transition = 'opacity 1s ease';
-            
-            setTimeout(() => {
-                container.style.opacity = '1';
-            }, 100);
-        });
-    </script>
+        <div class="footer">
+            BTFM PROJECTS &bull; 2026 &bull; Join the Adventure
+        </div>
+    </div>
 
 </body>
 </html>
