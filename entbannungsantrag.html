@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entbannungsantrag – BTFM Projects</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --blurple:        #5865F2;
+            --blurple-dark:   #4752C4;
+            --blurple-glow:   rgba(88,101,242,0.25);
+            --bg:             #0B0C0F;
+            --bg-card:        #13141A;
+            --bg-input:       #0F1014;
+            --border:         rgba(255,255,255,0.07);
+            --border-focus:   rgba(88,101,242,0.7);
+            --text:           #EDEEF2;
+            --muted:          #6B7280;
+            --faint:          #3D4049;
+            --red:            #F04747;
+            --green:          #43B581;
+            --radius:         14px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 48px 16px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Ambient background */
+        .bg-orb {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(80px);
+            z-index: 0;
+        }
+        .bg-orb-1 {
+            width: 600px; height: 600px;
+            top: -200px; left: 50%;
+            transform: translateX(-50%);
+            background: radial-gradient(circle, rgba(88,101,242,0.12) 0%, transparent 70%);
+        }
+        .bg-orb-2 {
+            width: 300px; height: 300px;
+            bottom: 0; right: -100px;
+            background: radial-gradient(circle, rgba(88,101,242,0.07) 0%, transparent 70%);
+        }
+
+        /* Grid texture */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(88,101,242,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(88,101,242,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ── Brand ── */
+        .brand {
+            display: flex; align-items: center; gap: 14px;
+            margin-bottom: 36px;
+            position: relative; z-index: 1;
+            animation: fadeDown 0.6s cubic-bezier(.22,1,.36,1) both;
+        }
+
+        .brand-icon {
+            width: 52px; height: 52px;
+            background: linear-gradient(135deg, var(--blurple), #7289DA);
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px;
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 8px 24px rgba(88,101,242,0.4);
+        }
+
+        .brand-text { line-height: 1.1; }
+        .brand-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 20px; font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .brand-name span { color: var(--blurple); }
+        .brand-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+        /* ── Card ── */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            width: 100%; max-width: 540px;
+            padding: 36px;
+            position: relative; z-index: 1;
+            animation: fadeUp 0.6s cubic-bezier(.22,1,.36,1) 0.1s both;
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.04),
+                0 24px 48px rgba(0,0,0,0.6),
+                0 0 80px rgba(88,101,242,0.05);
+        }
+
+        /* Accent top border */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 20px; right: 20px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--blurple), transparent);
+            border-radius: 1px;
+        }
+
+        /* ── Header ── */
+        .header { text-align: center; margin-bottom: 28px; }
+
+        .status-pill {
+            display: inline-flex; align-items: center; gap: 7px;
+            background: rgba(240,71,71,0.1);
+            border: 1px solid rgba(240,71,71,0.25);
+            border-radius: 100px;
+            padding: 5px 14px;
+            font-size: 11px; font-weight: 500;
+            color: #F47878;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .status-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #F47878;
+            animation: pulse 2s ease infinite;
+        }
+
+        .header h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 28px; font-weight: 800;
+            letter-spacing: -0.8px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 40%, rgba(255,255,255,0.5));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 14px; color: var(--muted);
+            line-height: 1.6; max-width: 380px; margin: 0 auto;
+        }
+
+        /* ── Divider ── */
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 24px 0;
+        }
+
+        /* ── Form ── */
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+        .field { margin-bottom: 16px; }
+
+        label {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 11px; font-weight: 500;
+            letter-spacing: 0.8px; text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        label .req { color: var(--red); font-size: 13px; line-height: 1; }
+
+        input, textarea {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            padding: 11px 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+            resize: none;
+        }
+
+        input[type="date"] { color-scheme: dark; }
+        input::placeholder, textarea::placeholder { color: var(--faint); }
+
+        input:focus, textarea:focus {
+            border-color: var(--border-focus);
+            background: rgba(88,101,242,0.04);
+            box-shadow: 0 0 0 3px rgba(88,101,242,0.1);
+        }
+
+        textarea { min-height: 96px; line-height: 1.6; }
+
+        .field-meta {
+            display: flex; justify-content: space-between;
+            margin-top: 5px;
+        }
+        .field-hint { font-size: 11px; color: var(--faint); }
+        .char-count { font-size: 11px; color: var(--faint); font-variant-numeric: tabular-nums; }
+
+        /* ── Error box ── */
+        .error-box {
+            background: rgba(240,71,71,0.08);
+            border: 1px solid rgba(240,71,71,0.2);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .error-box.show { display: block; }
+        .error-box-title {
+            font-size: 12px; font-weight: 600; color: #F47878;
+            margin-bottom: 6px; display: flex; align-items: center; gap: 6px;
+        }
+        .error-list { padding-left: 16px; }
+        .error-list li { font-size: 12px; color: #F47878; margin-top: 3px; }
+
+        /* ── Submit ── */
+        .btn {
+            width: 100%;
+            padding: 13px;
+            background: var(--blurple);
+            color: #fff;
+            font-family: 'Syne', sans-serif;
+            font-size: 15px; font-weight: 700;
+            border: none; border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+            letter-spacing: 0.2px;
+            position: relative; overflow: hidden;
+            box-shadow: 0 4px 20px rgba(88,101,242,0.3);
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+            pointer-events: none;
+        }
+
+        .btn:hover {
+            background: var(--blurple-dark);
+            box-shadow: 0 6px 24px rgba(88,101,242,0.45);
+        }
+        .btn:active { transform: scale(0.98); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .btn-inner { display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+        .spinner {
+            width: 16px; height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            display: none;
+        }
+
+        .note {
+            font-size: 11px; color: var(--faint);
+            text-align: center; margin-top: 12px; line-height: 1.6;
+        }
+
+        /* ── Success ── */
+        .success-screen {
+            display: none;
+            text-align: center;
+            padding: 16px 0 8px;
+        }
+
+        .success-screen.show { display: block; }
+        .form-area.hide { display: none; }
+
+        .success-ring {
+            width: 76px; height: 76px;
+            border-radius: 50%;
+            background: rgba(67,181,129,0.1);
+            border: 1.5px solid rgba(67,181,129,0.3);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 34px;
+            animation: pop 0.5s cubic-bezier(.34,1.56,.64,1) both;
+        }
+
+        .success-screen h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 22px; font-weight: 800;
+            color: var(--green);
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .success-screen p {
+            font-size: 13px; color: var(--muted);
+            line-height: 1.7; max-width: 360px; margin: 0 auto 24px;
+        }
+
+        .btn-ghost {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 9px 20px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--muted);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px; font-weight: 500;
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .btn-ghost:hover { border-color: var(--blurple); color: var(--blurple); }
+
+        /* ── Footer ── */
+        .footer {
+            margin-top: 24px;
+            font-size: 11px; color: var(--faint);
+            text-align: center;
+            position: relative; z-index: 1;
+            animation: fadeUp 0.6s ease 0.25s both;
+        }
+
+        /* ── Animations ── */
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pop {
+            from { opacity: 0; transform: scale(0.5); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.3; }
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 480px) {
+            .card { padding: 24px 18px; }
+            .row  { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+
+    <!-- Brand -->
+    <div class="brand">
+        <div class="brand-icon">🔨</div>
+        <div class="brand-text">
+            <div class="brand-name">BTFM <span>Projects</span></div>
+            <div class="brand-sub">Support System</div>
+        </div>
+    </div>
+
+    <!-- Card -->
+    <div class="card">
+
+        <!-- Header -->
+        <div class="header">
+            <div class="status-pill">
+                <div class="status-dot"></div>
+                Account gesperrt
+            </div>
+            <h1>Entbannungsantrag</h1>
+            <p>Fülle das Formular sorgfältig aus. Du wirst per Discord-DM über die Entscheidung informiert.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Error Box -->
+        <div class="error-box" id="errorBox">
+            <div class="error-box-title">⚠️ Bitte korrigiere folgende Fehler</div>
+            <ul class="error-list" id="errorList"></ul>
+        </div>
+
+        <!-- Form -->
+        <div class="form-area" id="formArea">
+            <div class="row">
+                <div class="field">
+                    <label>👤 Discord Username <span class="req">*</span></label>
+                    <input type="text" id="username" placeholder="z.B. max1234" maxlength="50" autocomplete="off">
+                </div>
+                <div class="field">
+                    <label>🆔 Discord ID <span class="req">*</span></label>
+                    <input type="text" id="discordId" placeholder="z.B. 1234567890..." maxlength="20" inputmode="numeric" autocomplete="off">
+                    <div class="field-meta">
+                        <span class="field-hint">17–20 Stellen</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                <label>📅 Datum des Bans <span class="req">*</span></label>
+                <input type="date" id="banDate">
+            </div>
+
+            <div class="field">
+                <label>⚠️ Warum wurdest du gebannt? <span class="req">*</span></label>
+                <textarea id="banReason" placeholder="Beschreibe ehrlich den Grund für deinen Ban..." maxlength="800" oninput="count(this,'c1')"></textarea>
+                <div class="field-meta">
+                    <span class="field-hint">Sei ehrlich – das erhöht deine Chancen</span>
+                    <span class="char-count"><span id="c1">0</span>/800</span>
+                </div>
+            </div>
+
+            <div class="field">
+                <label>💬 Warum möchtest du entbannt werden? <span class="req">*</span></label>
+                <textarea id="unbanReason" placeholder="Erkläre, warum du eine zweite Chance verdienst..." maxlength="800" oninput="count(this,'c2')"></textarea>
+                <div class="field-meta">
+                    <span class="field-hint">Je ausführlicher, desto besser</span>
+                    <span class="char-count"><span id="c2">0</span>/800</span>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <button class="btn" id="submitBtn" onclick="submitForm()">
+                <div class="btn-inner">
+                    <div class="spinner" id="spinner"></div>
+                    <span id="btnText">📨 Antrag absenden</span>
+                </div>
+            </button>
+
+            <p class="note">
+                Falsche Angaben führen zur sofortigen Ablehnung.<br>
+                Anträge werden in der Regel innerhalb von 48–72 Stunden bearbeitet.
+            </p>
+        </div>
+
+        <!-- Success -->
+        <div class="success-screen" id="successScreen">
+            <div class="success-ring">✅</div>
+            <h2>Antrag gesendet!</h2>
+            <p>
+                Dein Entbannungsantrag wurde erfolgreich an unser Team weitergeleitet.
+                Du wirst per <strong style="color:var(--text)">Discord-DM</strong> über die Entscheidung informiert.
+            </p>
+            <button class="btn-ghost" onclick="resetForm()">↩ Neuen Antrag stellen</button>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; <script>document.write(new Date().getFullYear())</script> BTFM Projects &nbsp;·&nbsp; Entbannungssystem
+    </div>
+
+    <script>
+        // ── KONFIGURATION ─────────────────────────────────────────
+        const WEBHOOK_URL = 'https://discord.com/api/webhooks/WEBHOOK_ID/WEBHOOK_TOKEN';
+        // ─────────────────────────────────────────────────────────
+
+        // Zeichenzähler
+        function count(el, id) {
+            document.getElementById(id).textContent = el.value.length;
+        }
+
+        // Max-Datum für Datepicker = heute
+        document.getElementById('banDate').max = new Date().toISOString().split('T')[0];
+
+        // ── Validierung ───────────────────────────────────────────
+        function validate() {
+            const errors = [];
+            const username   = document.getElementById('username').value.trim();
+            const discordId  = document.getElementById('discordId').value.trim();
+            const banDate    = document.getElementById('banDate').value;
+            const banReason  = document.getElementById('banReason').value.trim();
+            const unbanReason= document.getElementById('unbanReason').value.trim();
+
+            if (!username)                              errors.push('Discord Username ist erforderlich.');
+            if (!/^\d{17,20}$/.test(discordId))        errors.push('Discord ID muss 17–20 Stellen lang sein.');
+            if (!banDate)                               errors.push('Bitte gib das Datum des Bans an.');
+            if (banReason.length < 10)                  errors.push('Beschreibe den Bangrund ausführlicher (min. 10 Zeichen).');
+            if (unbanReason.length < 10)                errors.push('Erkläre ausführlicher, warum du entbannt werden möchtest.');
+
+            return { errors, username, discordId, banDate, banReason, unbanReason };
+        }
+
+        // ── Absenden ──────────────────────────────────────────────
+        async function submitForm() {
+            const { errors, username, discordId, banDate, banReason, unbanReason } = validate();
+
+            const errorBox  = document.getElementById('errorBox');
+            const errorList = document.getElementById('errorList');
+
+            if (errors.length > 0) {
+                errorList.innerHTML = errors.map(e => `<li>${e}</li>`).join('');
+                errorBox.classList.add('show');
+                errorBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                return;
+            }
+
+            errorBox.classList.remove('show');
+
+            // UI: Laden
+            const btn     = document.getElementById('submitBtn');
+            const spinner = document.getElementById('spinner');
+            const btnText = document.getElementById('btnText');
+            btn.disabled      = true;
+            spinner.style.display = 'block';
+            btnText.textContent   = 'Wird gesendet…';
+
+            const antragId = `unban_${discordId}_${Date.now()}`;
+
+            const payload = {
+                embeds: [{
+                    title:       '📋 Neuer Entbannungsantrag',
+                    description: '> Ein Nutzer möchte entbannt werden. Bitte prüfen und entscheiden.',
+                    color:       0x5865F2,
+                    fields: [
+                        { name: '👤 Discord Username', value: `\`${username}\``,  inline: true  },
+                        { name: '🆔 Discord ID',       value: `\`${discordId}\``, inline: true  },
+                        { name: '📅 Datum des Bans',   value: `\`${banDate}\``,   inline: true  },
+                        { name: '⚠️ Warum wurde ich gebannt?',          value: banReason,   inline: false },
+                        { name: '💬 Warum möchte ich entbannt werden?', value: unbanReason, inline: false },
+                    ],
+                    footer:    { text: 'BTFM Projects • Entbannungssystem' },
+                    timestamp: new Date().toISOString(),
+                }]
+            };
+
+            try {
+                const res = await fetch(WEBHOOK_URL, {
+                    method:  'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body:    JSON.stringify(payload),
+                });
+
+                if (res.ok) {
+                    // Erfolg
+                    document.getElementById('formArea').classList.add('hide');
+                    document.getElementById('successScreen').classList.add('show');
+                } else {
+                    throw new Error(`HTTP ${res.status}`);
+                }
+            } catch (err) {
+                btn.disabled          = false;
+                spinner.style.display = 'none';
+                btnText.textContent   = '📨 Antrag absenden';
+                errorList.innerHTML   = `<li>Fehler beim Senden. Bitte versuche es erneut. (${err.message})</li>`;
+                errorBox.classList.add('show');
+            }
+        }
+
+        // ── Reset ─────────────────────────────────────────────────
+        function resetForm() {
+            document.getElementById('formArea').classList.remove('hide');
+            document.getElementById('successScreen').classList.remove('show');
+            document.getElementById('username').value    = '';
+            document.getElementById('discordId').value   = '';
+            document.getElementById('banDate').value     = '';
+            document.getElementById('banReason').value   = '';
+            document.getElementById('unbanReason').value = '';
+            document.getElementById('c1').textContent    = '0';
+            document.getElementById('c2').textContent    = '0';
+            const btn     = document.getElementById('submitBtn');
+            btn.disabled  = false;
+            document.getElementById('spinner').style.display = 'none';
+            document.getElementById('btnText').textContent   = '📨 Antrag absenden';
+        }
+
+        // Enter in Inputs → kein ungewolltes Absenden
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') e.preventDefault();
+        });
+    </script>
+</body>
+</html>
