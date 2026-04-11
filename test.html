@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTFM Projects | Home</title>
+    
+    <style>
+        /* --- CORE CSS (FROM TEMPLATE) --- */
+        .classy-nav-container {
+            position: relative;
+            z-index: 1;
+            background-color: #ffffff;
+        }
+        .classy-nav-container * {
+            box-sizing: border-box;
+        }
+        .classy-nav-container a {
+            -webkit-transition-duration: 500ms;
+            transition-duration: 500ms;
+            text-decoration: none;
+            outline: none;
+            font-size: 14px;
+            display: inline-block;
+        }
+        .classy-nav-container a:hover, .classy-nav-container a:focus {
+            -webkit-transition-duration: 500ms;
+            transition-duration: 500ms;
+            text-decoration: none;
+            outline: none;
+            font-size: 14px;
+            color: #1abc9c;
+        }
+        .justify-content-between {
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+        }
+        .classy-navbar {
+            width: 100%;
+            height: 80px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+        }
+        .classy-navbar .nav-brand {
+            font-size: 26px;
+            font-weight: 700;
+            color: #232323;
+            display: inline-block;
+            margin-right: 30px;
+        }
+        .classynav ul li {
+            display: inline-block;
+            clear: both;
+            position: inherit;
+            z-index: 10;
+        }
+        .classynav ul li.cn-dropdown-item {
+            position: relative;
+        }
+        .classynav ul li ul li {
+            display: block;
+        }
+        .classynav ul li a {
+            padding: 0 15px;
+            display: block;
+            height: 40px;
+            font-size: 14px;
+            line-height: 39px;
+            color: #232323;
+        }
+
+        /* Desktop Dropdown Behavior */
+        .breakpoint-off .classynav {
+            display: flex;
+            align-items: center;
+        }
+        .breakpoint-off .classynav ul li .dropdown {
+            width: 180px;
+            position: absolute;
+            background-color: #ffffff;
+            top: 120%;
+            left: 0;
+            z-index: 100;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+            transition-duration: 300ms;
+            opacity: 0;
+            visibility: hidden;
+            padding: 10px 0;
+            list-style: none;
+        }
+        .breakpoint-off .classynav ul li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            top: 100%;
+        }
+
+        /* Mobile Styles */
+        .classy-navbar-toggler {
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            display: none;
+        }
+        .classy-navbar-toggler .navbarToggler span {
+            background-color: #707070;
+            display: block;
+            height: 3px;
+            margin-top: 5px;
+            width: 30px;
+            transition-duration: 300ms;
+        }
+        .breakpoint-on .classy-navbar-toggler { display: block; }
+        .breakpoint-on .classy-navbar .classy-menu {
+            background-color: #ffffff;
+            position: fixed;
+            top: 0;
+            left: -340px;
+            z-index: 9999;
+            width: 320px;
+            height: 100%;
+            transition-duration: 500ms;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        .breakpoint-on .classy-navbar .classy-menu.menu-on { left: 0; }
+        .breakpoint-on .classynav ul li { display: block; }
+        
+        .classycloseIcon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            display: none;
+        }
+        .breakpoint-on .classycloseIcon { display: block; }
+
+        /* --- BASIC PAGE STYLING --- */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        .hero {
+            padding: 100px 0;
+            background: linear-gradient(45deg, #2c3e50, #1abc9c);
+            color: white;
+            text-align: center;
+        }
+        .projects-section {
+            padding: 60px 0;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-top: 4px solid #1abc9c;
+        }
+        .card h3 { margin-top: 0; color: #2c3e50; }
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: #232323;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header-area">
+        <div class="classy-nav-container breakpoint-off" id="navContainer">
+            <div class="container">
+                <nav class="classy-navbar justify-content-between">
+                    <a href="#" class="nav-brand">BTFM PROJECTS</a>
+
+                    <div class="classy-navbar-toggler" id="toggler">
+                        <div class="navbarToggler"><span></span><span></span><span></span></div>
+                    </div>
+
+                    <div class="classy-menu" id="menu">
+                        <div class="classycloseIcon" id="closeBtn">
+                            <div class="cross-wrap"><span style="transform: rotate(45deg); position: absolute; height: 2px; width: 25px; background: #000;"></span><span style="transform: rotate(-45deg); position: absolute; height: 2px; width: 25px; background: #000;"></span></div>
+                        </div>
+                        <div class="classynav">
+                            <ul>
+                                <li><a href="#">Home</a></li>
+                                <li class="cn-dropdown-item"><a href="#">Management</a>
+                                    <ul class="dropdown">
+                                        <li><a href="#">Strategy</a></li>
+                                        <li><a href="#">Hustensaft Hosting</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Services</a></li>
+                                <li><a href="#">Portfolio</a></li>
+                                <li><a href="#">Kontakt</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>BTFM Projects</h1>
+            <p>Professionelles Management & Digitale Lösungen</p>
+        </div>
+    </section>
+
+    <main class="container projects-section">
+        <div class="grid">
+            <div class="card">
+                <h3>Development</h3>
+                <p>Innovative Softwarelösungen unter den Hustensaft DEV Studios.</p>
+            </div>
+            <div class="card">
+                <h3>Hosting</h3>
+                <p>Sichere und performante Infrastruktur für Ihre digitalen Assets.</p>
+            </div>
+            <div class="card">
+                <h3>Management</h3>
+                <p>Effiziente Steuerung und Skalierung von Unternehmenseinheiten.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 BTFM Projects. Alle Rechte vorbehalten.</p>
+    </footer>
+
+    <script>
+        // --- JAVASCRIPT LOGIC ---
+        const toggler = document.getElementById('toggler');
+        const menu = document.getElementById('menu');
+        const closeBtn = document.getElementById('closeBtn');
+        const navContainer = document.getElementById('navContainer');
+
+        // Toggle Mobile Menu
+        toggler.addEventListener('click', () => {
+            menu.classList.add('menu-on');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            menu.classList.remove('menu-on');
+        });
+
+        // Responsive Breakpoint Handler
+        function handleBreakpoint() {
+            if (window.innerWidth <= 991) {
+                navContainer.classList.remove('breakpoint-off');
+                navContainer.classList.add('breakpoint-on');
+            } else {
+                navContainer.classList.add('breakpoint-off');
+                navContainer.classList.remove('breakpoint-on');
+                menu.classList.remove('menu-on');
+            }
+        }
+
+        window.addEventListener('resize', handleBreakpoint);
+        handleBreakpoint(); // Initial check
+    </script>
+</body>
+</html>
