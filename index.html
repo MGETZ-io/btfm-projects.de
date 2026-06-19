@@ -3,125 +3,531 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BTFM PROJECTS | Official Hub</title>
+    <title>BTFM Projects – Fanprojekt von BigTimeFM</title>
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
+        /* ----- global resets & facelift style (angelehnt an BigTimeFM) ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            background-color: #0a001a; /* Tiefes Dunkellila */
-            color: #ffffff;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            background: #0a0c0f;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #d2d9df;
+            padding-bottom: 60px;
         }
-
-        .hub-container {
-            background: linear-gradient(180deg, #150030 0%, #001f4d 100%); /* Lila zu Blau Verlauf */
-            width: 90%;
-            max-width: 600px;
-            padding: 40px;
-            border-radius: 30px;
-            text-align: center;
-            border: 2px solid #0055ff;
-            box-shadow: 0 0 40px rgba(0, 85, 255, 0.3);
-        }
-
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            text-shadow: 0 0 15px #0055ff;
-            letter-spacing: 3px;
-        }
-
-        .tagline {
-            color: #a280ff;
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            display: block;
-        }
-
-        .project-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .project-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid #330066;
-            transition: transform 0.3s ease;
-        }
-
-        .project-card:hover {
-            transform: scale(1.05);
-            border-color: #0055ff;
-            background: rgba(0, 85, 255, 0.1);
-        }
-
-        .project-card h3 {
-            margin: 0 0 5px 0;
-            color: #4d94ff;
-        }
-
-        .project-card p {
-            margin: 0;
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        .rules-link {
-            display: block;
+        a {
+            color: #e67e22;
             text-decoration: none;
-            background: #0055ff;
-            color: white;
-            padding: 15px 30px;
+            transition: color 0.2s;
+        }
+        a:hover {
+            color: #f39c12;
+            text-decoration: none;
+        }
+        .text-primary-orange {
+            color: #e67e22;
+        }
+        .bg-dark-gd {
+            background: linear-gradient(145deg, #101216 0%, #080a0d 100%);
+        }
+        .border-orange {
+            border-color: rgba(230, 126, 34, 0.3) !important;
+        }
+        .btn-orange {
+            background: linear-gradient(130deg, #e67e22, #b95600);
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            padding: 10px 28px;
             border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 20px rgba(185, 86, 0, 0.3);
+            transition: all 0.2s ease;
         }
-
-        .rules-link:hover {
-            background: #0077ff;
-            box-shadow: 0 0 20px #0055ff;
-            transform: translateY(-3px);
+        .btn-orange:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(185, 86, 0, 0.45);
+            color: #fff;
         }
-
-        .footer {
-            margin-top: 40px;
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .section-sub {
+            color: #e67e22;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            font-size: 0.9rem;
+        }
+        .glass-card {
+            background: rgba(22, 24, 30, 0.85);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(230, 126, 34, 0.25);
+            border-radius: 20px;
+            padding: 24px 20px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+            transition: transform 0.25s ease, border-color 0.25s;
+            height: 100%;
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            border-color: #e67e22;
+        }
+        .avatar-placeholder {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #1e2128;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 600;
+            color: #e67e22;
+            border: 2px solid rgba(230, 126, 34, 0.5);
+            flex-shrink: 0;
+        }
+        .partner-badge {
+            background: rgba(230, 126, 34, 0.15);
+            border: 1px solid rgba(230, 126, 34, 0.3);
+            border-radius: 40px;
+            padding: 4px 14px;
             font-size: 0.8rem;
-            color: #666;
+            font-weight: 500;
+            color: #e67e22;
+            display: inline-block;
+        }
+        .role-tag {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            padding: 2px 14px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #b0b8c0;
+        }
+        /* header / footer lehnen sich an BigTimeFM an */
+        .btfm-header {
+            background: linear-gradient(160deg, rgba(10, 11, 13, 0.95), rgba(23, 24, 27, 0.9));
+            border-bottom: 1px solid rgba(230, 126, 34, 0.2);
+            padding: 18px 0;
+            backdrop-filter: blur(8px);
+        }
+        .btfm-footer {
+            background: #0a0c0f;
+            border-top: 1px solid rgba(230, 126, 34, 0.15);
+            padding: 30px 0 20px;
+            margin-top: 40px;
+        }
+        .footer-logo {
+            max-width: 140px;
+            filter: brightness(0.9);
+        }
+        .hero-area {
+            padding: 60px 0 40px;
+            background: radial-gradient(circle at 20% 30%, rgba(230, 126, 34, 0.08), transparent 50%);
+        }
+        /* Team grid */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .partner-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .role-group {
+            margin-bottom: 28px;
+        }
+        .role-group h5 {
+            color: #e67e22;
+            border-bottom: 1px solid rgba(230, 126, 34, 0.2);
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+        .member-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+        }
+        .member-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 30px;
+            padding: 6px 16px 6px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+        .member-item .initials {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #1e2128;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: #e67e22;
+            border: 1px solid rgba(230, 126, 34, 0.3);
+        }
+        .member-item .member-name {
+            color: #fff;
+        }
+        .member-item .member-role {
+            color: #9aa2aa;
+            font-size: 0.75rem;
+            background: rgba(255,255,255,0.04);
+            padding: 0 8px;
+            border-radius: 20px;
+        }
+        .partner-item {
+            background: rgba(22, 24, 30, 0.6);
+            border: 1px solid rgba(230, 126, 34, 0.15);
+            border-radius: 16px;
+            padding: 18px 16px;
+            text-align: center;
+            transition: 0.2s;
+        }
+        .partner-item:hover {
+            border-color: #e67e22;
+            background: rgba(30, 33, 40, 0.7);
+        }
+        .partner-item .partner-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+        }
+        .partner-item .partner-since {
+            font-size: 0.85rem;
+            color: #9aa2aa;
+            margin-top: 4px;
+        }
+        .status-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #2ecc71;
+            margin-right: 6px;
+        }
+        .text-muted-light {
+            color: #9aa2aa;
+        }
+        @media (max-width: 576px) {
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            .partner-grid {
+                grid-template-columns: 1fr;
+            }
+            .member-item {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="hub-container">
-        <h1>BTFM PROJECTS</h1>
-        <span class="tagline">Das ultimative Multi-Minecraft Projekt</span>
-
-        <div class="project-grid">
-            <div class="project-card">
-                <h3>BTFM Tower</h3>
-                <p>Das Wahrzeichen unserer Welt.</p>
+    <!-- HEADER (angelehnt an BigTimeFM) -->
+    <header class="btfm-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-6 col-md-3">
+                    <a href="#" class="d-block">
+                        <img src="https://bigtimefm.de/assets/img/logo_white.png" alt="BigTimeFM" class="footer-logo" style="max-width: 160px;">
+                    </a>
+                    <span class="d-none d-md-inline-block text-muted-light small ml-2">| BTFM Projects</span>
+                </div>
+                <div class="col-6 col-md-9 text-right">
+                    <span class="badge badge-pill badge-dark border-orange px-3 py-2">
+                        <i class="fas fa-code text-primary-orange"></i> Fanprojekt
+                    </span>
+                    <a href="https://bigtimefm.de" target="_blank" class="btn btn-sm btn-outline-light ml-2 border-orange">
+                        <i class="fas fa-radio"></i> BigTimeFM
+                    </a>
+                </div>
             </div>
-            <div class="project-card">
-                <h3>BTFM Freizeitpark</h3>
-                <p>Action, Spaß und Adrenalin.</p>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <span class="section-sub"><i class="fas fa-bolt text-primary-orange"></i> Community getrieben</span>
+                    <h1 class="display-4 font-weight-bold text-white" style="font-size: 3.2rem;">BTFM <span class="text-primary-orange">Projects</span></h1>
+                    <p class="lead text-muted-light" style="max-width: 600px;">
+                        Ein von Fans gegründetes Projekt, das die BigTimeFM-Community vereint – mit eigenen Tools, Bots und kreativen Ideen.
+                    </p>
+                    <div class="mt-3">
+                        <span class="badge badge-pill badge-dark border-orange px-3 py-2 mr-2"><i class="fas fa-users text-primary-orange"></i> 12+ Teammitglieder</span>
+                        <span class="badge badge-pill badge-dark border-orange px-3 py-2"><i class="fas fa-handshake text-primary-orange"></i> 2 Partner</span>
+                    </div>
+                </div>
+                <div class="col-lg-4 d-none d-lg-block text-right">
+                    <i class="fas fa-cogs text-primary-orange" style="font-size: 5rem; opacity: 0.3;"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <main class="container">
+
+        <!-- TEAM SECTION -->
+        <section class="my-5">
+            <div class="d-flex align-items-center mb-3">
+                <span class="section-sub"><i class="fas fa-users text-primary-orange"></i> Unser Team</span>
+                <span class="ml-3 text-muted-light small">(Daten aus der Team-API)</span>
+            </div>
+            <h2 class="section-title text-white">Das <span class="text-primary-orange">BTFM Projects</span> Team</h2>
+            <p class="text-muted-light mb-4">Die Menschen hinter den Projekten – organisiert nach Rollen.</p>
+
+            <div id="teamContainer">
+                <!-- wird von JS befüllt -->
+                <div class="text-center py-4">
+                    <div class="spinner-border text-primary-orange" role="status">
+                        <span class="sr-only">Lade Team...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PARTNER SECTION -->
+        <section class="my-5 pt-3">
+            <div class="d-flex align-items-center mb-3">
+                <span class="section-sub"><i class="fas fa-handshake text-primary-orange"></i> Partnerprojekte</span>
+                <span class="ml-3 text-muted-light small">(Daten aus der Partner-API)</span>
+            </div>
+            <h2 class="section-title text-white">Unsere <span class="text-primary-orange">Partner</span></h2>
+            <p class="text-muted-light mb-4">Offizielle Partnerprojekte, die mit uns die BigTimeFM-Community stärken.</p>
+
+            <div id="partnerContainer">
+                <!-- wird von JS befüllt -->
+                <div class="text-center py-4">
+                    <div class="spinner-border text-primary-orange" role="status">
+                        <span class="sr-only">Lade Partner...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INFO / VERWEIS -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="glass-card" style="border-left: 4px solid #e67e22;">
+                    <div class="d-flex flex-wrap align-items-center">
+                        <div class="mr-3"><i class="fas fa-info-circle text-primary-orange fa-2x"></i></div>
+                        <div>
+                            <h5 class="text-white mb-1">Über BTFM Projects</h5>
+                            <p class="text-muted-light mb-0 small">
+                                Dieses Fanprojekt ist unabhängig und wird von engagierten Community-Mitgliedern betrieben.
+                                Alle Daten werden live aus den offiziellen Projekt-APIs geladen.
+                                <br><i class="fas fa-code text-primary-orange"></i> <a href="https://partner.btfm-projects.de/api/user.php" target="_blank" class="text-primary-orange">Partner-API</a> &middot;
+                                <a href="https://backend.btfm-projects.de/api/user.php" target="_blank" class="text-primary-orange">Team-API</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <a href="Regelwerk.html" class="rules-link">Projekt-Regeln lesen</a>
+    </main>
 
-        <div class="footer">
-            BTFM PROJECTS &bull; 2026 &bull; Join the Adventure
+    <!-- FOOTER (BigTimeFM ähnlich) -->
+    <footer class="btfm-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="https://bigtimefm.de/assets/img/logo_white.png" alt="BigTimeFM" class="footer-logo mb-2">
+                    <p class="text-muted-light small">BTFM Projects – ein Fanprojekt von <a href="https://bigtimefm.de" target="_blank" class="text-primary-orange">BigTimeFM</a></p>
+                </div>
+                <div class="col-md-6 text-md-right">
+                    <span class="text-muted-light small d-block">© 2026 BTFM Projects</span>
+                    <span class="text-muted-light small">Daten werden live geladen</span>
+                </div>
+            </div>
         </div>
-    </div>
+    </footer>
 
+    <!-- jQuery + Bootstrap JS (für eventuelles) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        (function() {
+            "use strict";
+
+            // ----- HELPER: initials aus Namen -----
+            function getInitials(name) {
+                if (!name) return '?';
+                const parts = name.trim().split(/\s+/);
+                if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+                return (parts[0].charAt(0) + parts[parts.length-1].charAt(0)).toUpperCase();
+            }
+
+            // ----- HELPER: Geburtstag formatieren (YYYY-MM-DD -> lesbar) -----
+            function formatBirthday(bday) {
+                if (!bday) return '—';
+                // Prüfen ob "0001-11-28" oder ähnlich ungültig
+                if (bday.startsWith('0001')) return '—';
+                try {
+                    const d = new Date(bday);
+                    if (isNaN(d.getTime())) return '—';
+                    const day = String(d.getDate()).padStart(2, '0');
+                    const month = String(d.getMonth() + 1).padStart(2, '0');
+                    const year = d.getFullYear();
+                    return `${day}.${month}.${year}`;
+                } catch (_) { return '—'; }
+            }
+
+            // ----- TEAM API laden -----
+            const teamUrl = 'https://backend.btfm-projects.de/api/user.php';
+            const partnerUrl = 'https://partner.btfm-projects.de/api/user.php';
+
+            // Team rendern
+            function renderTeam(data) {
+                const container = document.getElementById('teamContainer');
+                if (!container) return;
+
+                if (!data || !Array.isArray(data) || data.length === 0) {
+                    container.innerHTML = `<div class="glass-card text-center py-4 text-muted-light"><i class="fas fa-exclamation-triangle text-primary-orange"></i> Keine Teamdaten verfügbar.</div>`;
+                    return;
+                }
+
+                // Nach Rolle gruppieren
+                const groups = {};
+                data.forEach(user => {
+                    const role = user.role || 'Mitglied';
+                    if (!groups[role]) groups[role] = [];
+                    groups[role].push(user);
+                });
+
+                // Sortieren: Rollen mit Administrator / Serverleitung zuerst
+                const roleOrder = ['Serverleitung', 'Stv. Serverleitung', 'Teamleitung', 'Administrator', 'Admin', 'Moderator', 'Mitglied'];
+                const sortedRoles = Object.keys(groups).sort((a, b) => {
+                    const idxA = roleOrder.indexOf(a);
+                    const idxB = roleOrder.indexOf(b);
+                    if (idxA === -1 && idxB === -1) return a.localeCompare(b);
+                    if (idxA === -1) return 1;
+                    if (idxB === -1) return -1;
+                    return idxA - idxB;
+                });
+
+                let html = '';
+                sortedRoles.forEach(role => {
+                    const members = groups[role];
+                    html += `<div class="role-group">`;
+                    html += `<h5><i class="fas fa-user-tag text-primary-orange"></i> ${role} <span class="badge badge-pill badge-dark border-orange ml-2">${members.length}</span></h5>`;
+                    html += `<div class="member-list">`;
+                    members.forEach(m => {
+                        const name = m.name || 'Unbekannt';
+                        const initials = getInitials(name);
+                        html += `
+                            <div class="member-item">
+                                <span class="initials">${initials}</span>
+                                <span class="member-name">${name}</span>
+                                <span class="member-role">${role}</span>
+                            </div>
+                        `;
+                    });
+                    html += `</div></div>`;
+                });
+
+                container.innerHTML = html;
+            }
+
+            // Partner rendern
+            function renderPartner(data) {
+                const container = document.getElementById('partnerContainer');
+                if (!container) return;
+
+                if (!data || !Array.isArray(data) || data.length === 0) {
+                    container.innerHTML = `<div class="glass-card text-center py-4 text-muted-light"><i class="fas fa-exclamation-triangle text-primary-orange"></i> Keine Partnerdaten verfügbar.</div>`;
+                    return;
+                }
+
+                let html = `<div class="partner-grid">`;
+                data.forEach(p => {
+                    const name = p.name || 'Unbekannt';
+                    const birthday = p.birthday || null;
+                    const since = formatBirthday(birthday);
+                    // discord_id optional für link
+                    const discordId = p.discord_id || '';
+                    html += `
+                        <div class="partner-item">
+                            <div class="avatar-placeholder mx-auto mb-2" style="width:56px;height:56px;font-size:22px;">${getInitials(name)}</div>
+                            <div class="partner-name">${name}</div>
+                            <div class="partner-since">
+                                <i class="fas fa-calendar-alt text-primary-orange"></i> seit ${since}
+                            </div>
+                            ${discordId ? `<span class="badge badge-dark border-orange mt-2"><i class="fab fa-discord"></i> Partner</span>` : ''}
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+                container.innerHTML = html;
+            }
+
+            // Beide APIs parallel laden
+            function loadAll() {
+                let teamLoaded = false;
+                let partnerLoaded = false;
+
+                // Team
+                fetch(teamUrl)
+                    .then(res => res.json())
+                    .then(data => {
+                        renderTeam(data);
+                        teamLoaded = true;
+                    })
+                    .catch(err => {
+                        console.warn('Team-API Fehler:', err);
+                        document.getElementById('teamContainer').innerHTML = `
+                            <div class="glass-card text-center py-4 text-muted-light">
+                                <i class="fas fa-exclamation-circle text-primary-orange"></i> Fehler beim Laden des Teams.
+                            </div>`;
+                        teamLoaded = true;
+                    });
+
+                // Partner
+                fetch(partnerUrl)
+                    .then(res => res.json())
+                    .then(data => {
+                        renderPartner(data);
+                        partnerLoaded = true;
+                    })
+                    .catch(err => {
+                        console.warn('Partner-API Fehler:', err);
+                        document.getElementById('partnerContainer').innerHTML = `
+                            <div class="glass-card text-center py-4 text-muted-light">
+                                <i class="fas fa-exclamation-circle text-primary-orange"></i> Fehler beim Laden der Partner.
+                            </div>`;
+                        partnerLoaded = true;
+                    });
+            }
+
+            // Start
+            loadAll();
+        })();
+    </script>
 </body>
 </html>
